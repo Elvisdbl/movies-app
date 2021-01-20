@@ -5,18 +5,21 @@ import { Container, Carousel } from 'react-bootstrap';
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 
-function Home(match) {
-    console.log(match);
-    let searchTerm = match.searchTerm;
-    console.log(searchTerm);
+function Home(props) {
+    let searchTerm = props.searchTerm;
     const API_KEY = "96a1b3764e5654a82e0ee8f34ad97731";
     const API_IMG = "https://image.tmdb.org/t/p/original/";
     const API_POPULAR = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`;
-    // const API_SEARCH = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=`;
+    const API_SEARCH = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=`;
     const [nowPlaying, setNowPlaying] = useState([]);
     const [popular, setPopular] = useState([]);
+    const [movies, setMovies] = useState([]);
+    const [lastSearch, setLastSearch] = useState("");
+    const [isInitialized, setIsInitialized] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const getNowPlaying = () => {
+        console.log("getNowPlaying");
         Axios.get(`https://api.themoviedb.org/3/movie/now_playing`, {
             params: {
                 api_key: API_KEY
@@ -29,21 +32,45 @@ function Home(match) {
     };
 
     const getPopular = (API) => {
+        console.log("getPopular");
         Axios.get(API)
             .then(res => {
                 setPopular(res.data.results);
+                setLoading(false);
             })
             .catch(e => console.log(e));
     };
 
-    useEffect(
-        () => {
-            const Fetch = () => {
-                getNowPlaying();
-                getPopular(API_POPULAR); // This is the thing that i need to change
-            }
-            Fetch();
-        }, [API_POPULAR]);
+    useEffect(() => {
+        const search = () => {
+            const url = `${API_SEARCH}${searchTerm}`;
+            console.log(`search ${url}`);
+            setMovies([]);
+            setLoading(true);
+            Axios.get(url)
+                .then(res => {
+                    setLoading(false);
+                    setMovies(res.data.results);
+                })
+                .catch(e => console.log(e));
+        }
+
+
+        const initialize = () => {
+            getNowPlaying();
+            getPopular(API_POPULAR); // This is the thing that i need to change
+        }
+
+        console.log("useEffect");
+        if (!isInitialized) {
+            setIsInitialized(true);
+            initialize();
+        }
+        if (searchTerm !== "" && searchTerm !== lastSearch) {
+            setLastSearch(searchTerm);
+            search();
+        }
+    }, [API_POPULAR, API_SEARCH, isInitialized, lastSearch, searchTerm]);
 
     const slider = nowPlaying.slice(0, 3).map(
         (item, id) => {
@@ -52,13 +79,12 @@ function Home(match) {
                     <Link to={`/movie/${item.id}`}> <img src={API_IMG + item.backdrop_path} alt={item.title} /></Link>
                     <Carousel.Caption style={{ background: '#302f2fa1' }}>
                         <h3>{item.title}</h3>
-                        <p >{item.overview}</p>
+                        <p>{item.overview}</p>
                     </Carousel.Caption>
                 </Carousel.Item>
             )
         }
     );
-
 
     return (
         <Container>
@@ -71,13 +97,25 @@ function Home(match) {
                 {slider}
             </Carousel>
 
-            <div className="container-fluid row">
-                {
-                    popular.map(
-                        movie => (<Movie key={movie.id} {...movie} />)
-                    )
-                }
-            </div>
+            {
+                searchTerm.length ?
+                    <h2>Showing results for "{searchTerm}"</h2>
+                    :
+                    <h2>Showing popular</h2>
+            }
+            {
+                loading ?
+                    <div>Page is loading</div>
+                    :
+                    <div className="container-fluid row">
+                        {
+                            (searchTerm.length ? movies : popular).map(
+                                movie => (<Movie key={movie.id} {...movie} />)
+                            )
+                        }
+                    </div>
+            }
+
         </Container>
     );
 }

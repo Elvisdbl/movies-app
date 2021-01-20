@@ -19,7 +19,7 @@ export function Detail({ match }) {
     return (
         <div>
             <h1>{details.title}</h1>
-            <img src={API_IMG  + details.poster_path} alt={details.title} />
+            <img src={API_IMG + details.poster_path} alt={details.title} />
             <p>{details.overview}</p>
             <span>{details.vote_average}</span>
             <p>{details.original_language}</p>
