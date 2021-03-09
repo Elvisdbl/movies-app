@@ -180,3 +180,34 @@ img {
   margin: 2px;
   padding: 2px 0;
 }
+
+/* Toggle bar */
+.relative {
+  position: relative;
+}
+
+#hidden-block {
+  border-radius: 0.3rem;
+  background-color: rgba(37, 37, 37, 0.926);
+  display: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.resultSearch {
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.resultSearch img {
+  width: 5rem;
+}
+
+.description {
+  padding-left: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: flex-start;
+}

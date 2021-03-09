@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import Axios from "axios";
+import React, { useState, useEffect } from "react";
+// import { Link } from "react-router-dom";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Detail from "./components/Details";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+const { REACT_APP_API_KEY: API_KEY } = process.env;
 
 function App() {
   const [searchTerm, setSearchTerm] = useState([]);
   const [localSearchTerm, setlocalSearchTerm] = useState([]);
+  const [results, setResult] = useState([]);
+  const API_IMG = "https://image.tmdb.org/t/p/original/";
+  const API_SEARCH = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=`;
 
   const handleOnChange = (e) => {
     setlocalSearchTerm(e.target.value);
@@ -14,8 +20,45 @@ function App() {
 
   const handleSearchMovies = (e) => {
     e.preventDefault();
+    let element = document.getElementById("hidden-block");
+    if (window.location.pathname !== "/movies-app/") {
+      if (element.style.display === "none") {
+        element.style.display = "block";
+      } else {
+        element.style.display = "none";
+      }
+    }
     setSearchTerm(localSearchTerm);
   };
+
+  useEffect(() => {
+    const getResult = (API_SEARCH) => {
+      Axios.get(`${API_SEARCH}${searchTerm}`)
+        .then((res) => setResult(res.data.results))
+        .catch((e) => console.log(e));
+    };
+    getResult(API_SEARCH);
+  }, [API_SEARCH, searchTerm]);
+
+  const ResultsBar = results.slice(0, 3).map((result) => (
+    <div class="resultSearch" key={result.id}>
+      {/* <Link to={`/movies-app/movie/${result.id}`}> */}
+      <img
+        src={
+          result.poster_path
+            ? API_IMG + result.poster_path
+            : "https://cdn.pixabay.com/photo/2016/12/14/23/08/page-not-found-1907792_960_720.jpg"
+        }
+        alt={result.title}
+      />
+      <div className="description">
+        <p>{result.title}</p>
+        <p>{result.release_date.slice(0, 4)}</p>
+      </div>
+
+      {/* </Link> */}
+    </div>
+  ));
 
   return (
     <div className="app">
@@ -26,14 +69,20 @@ function App() {
               <h2 className="text-light">Movies</h2>
             </a>
             <form onSubmit={handleSearchMovies} className="d-flex">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-                value={localSearchTerm}
-                onChange={handleOnChange}
-              />
+              <div class="relative">
+                <input
+                  className="form-control me-2"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                  value={localSearchTerm}
+                  onChange={handleOnChange}
+                />
+                <div id="hidden-block">
+                  <div>{ResultsBar}</div>
+                  <a href="/movies-app/">View More</a>
+                </div>
+              </div>
               <button className="btn btn-outline-success">Search</button>
             </form>
           </div>

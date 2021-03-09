@@ -58,7 +58,6 @@ function Home({ searchTerm }) {
       getPopular(API_POPULAR);
     };
 
-    console.log("useEffect");
     if (!isInitialized) {
       setIsInitialized(true);
       initialize();

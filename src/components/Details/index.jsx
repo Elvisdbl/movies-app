@@ -14,17 +14,6 @@ export function Detail({ match }) {
   const [details, setDetails] = useState([]);
   const [similarMovie, setSimilarMovie] = useState([]);
 
-  // const [trending, setTrending] = useState([]);
-  // const getTrending = () => {
-  //   Axios.get(
-  //     `https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`
-  //   )
-  //     .then((res) => {
-  //       setTrending(res.data.results);
-  //     })
-  //     .catch((e) => console.log(e));
-  // };
-
   useEffect(() => {
     const getSimiliarMovies = () => {
       Axios.get(API_SIMILAR)
@@ -42,21 +31,7 @@ export function Detail({ match }) {
     };
     getMoviesDetail(API_DETAILS);
     getSimiliarMovies(API_SIMILAR);
-    // getTrending();
   }, [API_DETAILS, API_SIMILAR]);
-
-  // const slider2 = trending.map((trend) => (
-  //   <Link to={`/movies-app/movie/${trend.id}`}>
-  //     <img
-  //       src={
-  //         trend.backdrop_path
-  //           ? API_IMG + trend.backdrop_path
-  //           : "https://cdn.pixabay.com/photo/2017/03/09/12/31/error-2129569_960_720.jpg"
-  //       }
-  //       alt={trend.title}
-  //     />
-  //   </Link>
-  // ));
 
   const similarMovieList = similarMovie.slice(0, 4).map((similar) => (
     <div className="col-md-3 col-sm-6" key={similar.id}>
