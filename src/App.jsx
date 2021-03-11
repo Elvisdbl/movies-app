@@ -80,7 +80,9 @@ function App() {
                 />
                 <div id="hidden-block">
                   <div>{ResultsBar}</div>
-                  <a href="/movies-app/">View More</a>
+                  <a class="btn btn-secondary" href="/movies-app/">
+                    View More
+                  </a>
                 </div>
               </div>
               <button className="btn btn-outline-success">Search</button>

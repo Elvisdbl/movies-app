@@ -197,7 +197,6 @@ img {
 .resultSearch {
   padding: 0.5rem;
   display: flex;
-  justify-content: space-between;
 }
 
 .resultSearch img {
@@ -208,6 +207,10 @@ img {
   padding-left: 0.5rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: flex-start;
+}
+
+#hidden-block a {
+  width: 100%;
 }
