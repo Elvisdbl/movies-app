@@ -1,8 +1,7 @@
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
-import Movie from "../Movie";
+import Movie from "../../components/Movie";
 import { Carousel } from "react-bootstrap";
-import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 const { REACT_APP_API_KEY: API_KEY } = process.env;
 

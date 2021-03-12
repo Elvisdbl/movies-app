@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Axios from "axios";
+import axios from "axios";
 import { Link } from "react-router-dom";
-import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import ReactStars from "react-rating-stars-component";
 const { REACT_APP_API_KEY: API_KEY } = process.env;
 
@@ -16,13 +15,15 @@ export function Detail({ match }) {
 
   useEffect(() => {
     const getSimiliarMovies = () => {
-      Axios.get(API_SIMILAR)
+      axios
+        .get(API_SIMILAR)
         .then((res) => setSimilarMovie(res.data.results))
         .catch((e) => console.log(e));
     };
 
     const getMoviesDetail = () => {
-      Axios.get(API_DETAILS)
+      axios
+        .get(API_DETAILS)
         .then((res) => {
           console.log(res.data);
           setDetails(res.data);

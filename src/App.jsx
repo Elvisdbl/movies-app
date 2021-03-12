@@ -2,9 +2,9 @@ import Axios from "axios";
 import React, { useState, useEffect } from "react";
 // import { Link } from "react-router-dom";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Home from "./components/Home";
-import Detail from "./components/Details";
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import Home from "./views/Home";
+import Detail from "./views/Details";
+import "bootstrap/dist/css/bootstrap.min.css";
 const { REACT_APP_API_KEY: API_KEY } = process.env;
 
 function App() {
@@ -41,7 +41,7 @@ function App() {
   }, [API_SEARCH, searchTerm]);
 
   const ResultsBar = results.slice(0, 3).map((result) => (
-    <div class="resultSearch" key={result.id}>
+    <div className="resultSearch" key={result.id}>
       {/* <Link to={`/movies-app/movie/${result.id}`}> */}
       <img
         src={
@@ -64,12 +64,12 @@ function App() {
     <div className="app">
       <div className="content">
         <nav id="navbar" className="navbar">
-          <div class="container-fluid">
+          <div className="container-fluid">
             <a className="navbar-brand" href="/movies-app/">
               <h2 className="text-light">Movies</h2>
             </a>
             <form onSubmit={handleSearchMovies} className="d-flex">
-              <div class="relative">
+              <div className="relative">
                 <input
                   className="form-control me-2"
                   type="search"
@@ -80,7 +80,7 @@ function App() {
                 />
                 <div id="hidden-block">
                   <div>{ResultsBar}</div>
-                  <a class="btn btn-secondary" href="/movies-app/">
+                  <a className="btn btn-secondary" href="/movies-app/">
                     View More
                   </a>
                 </div>
@@ -103,14 +103,14 @@ function App() {
       </div>
 
       <footer className="footer">
-        <div class="footer-top">
-          <div class="container">
-            <div class="d-flex justify-content-between">
-              <div class="col-lg-3 col-md-6 footer-info">
+        <div className="footer-top">
+          <div className="container">
+            <div className="d-flex justify-content-between">
+              <div className="col-lg-3 col-md-6 footer-info">
                 <h3>Movie</h3>
                 <p>We keep you up to date with the latest movies.</p>
               </div>
-              <div class="col-lg-3 col-md-6 footer-contact">
+              <div className="col-lg-3 col-md-6 footer-contact">
                 <h4>Contact</h4>
                 <p>
                   Elvis Bonilla
@@ -119,29 +119,29 @@ function App() {
                   <br />
                   Tachira
                 </p>
-                <div class="social-links">
+                <div className="social-links">
                   <a
                     href="https://www.linkedin.com/in/elvis-bonilla-312a071b2/"
-                    class="linkein"
+                    className="linkein"
                   >
-                    <i class="fab fa-linkedin"></i>
+                    <i className="fab fa-linkedin"></i>
                   </a>
-                  <a href="https://github.com/NovatoV" class="github">
-                    <i class="fab fa-github-square"></i>
+                  <a href="https://github.com/NovatoV" className="github">
+                    <i className="fab fa-github-square"></i>
                   </a>
                   <a
                     href="https://www.instagram.com/elelvisdaniel/"
-                    class="instagram"
+                    className="instagram"
                   >
-                    <i class="fa fa-instagram"></i>
+                    <i className="fa fa-instagram"></i>
                   </a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="container">
-          <div class="copyright">
+        <div className="container">
+          <div className="copyright">
             &copy; Copyright <strong>Movie</strong>. All Rights Reserved
           </div>
         </div>

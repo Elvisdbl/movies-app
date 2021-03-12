@@ -1,5 +1,4 @@
 import React from "react";
-import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 
 const IMG_API = "https://image.tmdb.org/t/p/original/";
