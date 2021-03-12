@@ -1,59 +1,62 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import SimilarMovies from "../../components/SimilarMovies";
 import ReactStars from "react-rating-stars-component";
-const { REACT_APP_API_KEY: API_KEY } = process.env;
+import { getMoviesDetail, getSimiliarMovies } from "../../API";
 
 export function Detail({ match }) {
   const API_IMG = `https://image.tmdb.org/t/p/original/`;
-  const API_DETAILS = `https://api.themoviedb.org/3/movie/${match.params.id}?api_key=${API_KEY}`;
-  const API_SIMILAR = `https://api.themoviedb.org/3/movie/${match.params.id}/similar?api_key=${API_KEY}`;
   let genres = [];
   let productions = [];
   const [details, setDetails] = useState([]);
   const [similarMovie, setSimilarMovie] = useState([]);
 
   useEffect(() => {
-    const getSimiliarMovies = () => {
-      axios
-        .get(API_SIMILAR)
-        .then((res) => setSimilarMovie(res.data.results))
-        .catch((e) => console.log(e));
+    const requestDetails = async () => {
+      setDetails(await getMoviesDetail(match.params.id));
+      setSimilarMovie(await getSimiliarMovies(match.params.id));
     };
 
-    const getMoviesDetail = () => {
-      axios
-        .get(API_DETAILS)
-        .then((res) => {
-          console.log(res.data);
-          setDetails(res.data);
-        })
-        .catch((e) => console.log(e));
-    };
-    getMoviesDetail(API_DETAILS);
-    getSimiliarMovies(API_SIMILAR);
-  }, [API_DETAILS, API_SIMILAR]);
+    // const getSimiliarMovies = () => {
+    //   axios
+    //     .get(API_SIMILAR)
+    //     .then((res) => setSimilarMovie(res.data.results))
+    //     .catch((e) => console.log(e));
+    // };
 
-  const similarMovieList = similarMovie.slice(0, 4).map((similar) => (
-    <div className="col-md-3 col-sm-6" key={similar.id}>
-      <div className="card">
-        <Link to={`/movies-app/movie/${similar.id}`}>
-          <img
-            className="img-fluid"
-            src={
-              similar.poster_path
-                ? API_IMG + similar.poster_path
-                : "https://cdn.pixabay.com/photo/2016/12/14/23/08/page-not-found-1907792_960_720.jpg"
-            }
-            alt={similar.title}
-          ></img>
-        </Link>
-      </div>
-      <div className="mt-3">
-        <p style={{ fontWeight: "bolder" }}>{similar.title}</p>
-      </div>
-    </div>
-  ));
+    // const getMoviesDetail = () => {
+    //   axios
+    //     .get(API_DETAILS)
+    //     .then((res) => {
+    //       console.log(res.data);
+    //       setDetails(res.data);
+    //     })
+    //     .catch((e) => console.log(e));
+    // };
+    // getMoviesDetail(API_DETAILS);
+    // getSimiliarMovies(API_SIMILAR);
+    requestDetails();
+  });
+
+  // const similarMovieList = similarMovie.slice(0, 4).map((similar) => (
+  //   <div className="col-md-3 col-sm-6" key={similar.id}>
+  //     <div className="card">
+  //       <Link to={`/movies-app/movie/${similar.id}`}>
+  //         <img
+  //           className="img-fluid"
+  //           src={
+  //             similar.poster_path
+  //               ? API_IMG + similar.poster_path
+  //               : "https://cdn.pixabay.com/photo/2016/12/14/23/08/page-not-found-1907792_960_720.jpg"
+  //           }
+  //           alt={similar.title}
+  //         ></img>
+  //       </Link>
+  //     </div>
+  //     <div className="mt-3">
+  //       <p style={{ fontWeight: "bolder" }}>{similar.title}</p>
+  //     </div>
+  //   </div>
+  // ));
 
   genres = details.genres;
   let genresList;
@@ -131,7 +134,9 @@ export function Detail({ match }) {
         <h3 className="h2 tittle-dec">Similar Movies</h3>
       </div>
       <div style={{ margin: "0 auto" }} className="row mt-3">
-        {similarMovieList}
+        {similarMovie.slice(0, 4).map((similar) => (
+          <SimilarMovies key={similar.id} {...similar} />
+        ))}
       </div>
     </div>
   );
