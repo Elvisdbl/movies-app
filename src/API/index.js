@@ -47,19 +47,15 @@ export const getPopular = async () => {
 }
 
 export const getSearch = async (searchTerm) => {
-    try {
-        const res = axios.get(API_SEARCH, {
-            params: {
-                api_key: API_KEY,
-                query: searchTerm
-            }
-        });
-        console.log("getSearch");
-        console.log(res);
-        return res;
-    } catch (e) {
-        console.log(e);
-    }
+    const {
+        data
+    } = await axios.get(API_SEARCH, {
+        params: {
+            api_key: API_KEY,
+            query: searchTerm
+        }
+    });
+    return data.results;
 }
 
 // Details 

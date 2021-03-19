@@ -16,7 +16,7 @@ export function Detail({ match }) {
       setSimilarMovie(await getSimiliarMovies(match.params.id));
     };
     requestDetails();
-  });
+  }, [match.params.id]);
 
   genres = details.genres;
   let genresList;

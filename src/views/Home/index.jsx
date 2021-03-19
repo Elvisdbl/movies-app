@@ -1,7 +1,7 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Movie from "../../components/Movie";
+import { getSearch } from "../../API";
 // import Slider from "../../components/Slider";
 
 import { Carousel } from "react-bootstrap";
@@ -22,7 +22,6 @@ function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log(searchTerm);
     const requestNowPlaying = async () => {
       setNowPlaying(await getNowPlaying());
     };
@@ -32,23 +31,18 @@ function Home() {
       setLoading(false); // When the api already upload the information the state gets false
     };
 
-    const search = () => {
-      // Search API
-      const url = `${API_SEARCH}${searchTerm}`;
-      console.log(`search ${url}`);
+    const requestSearch = async () => {
       setMovies([]);
       setLoading(true);
-      axios
-        .get(url)
-        .then((res) => {
-          setLoading(false);
-          setMovies(res.data.results);
-        })
-        .catch((e) => console.log(e));
+      try {
+        setMovies(await getSearch(searchTerm));
+        setLoading(false);
+      } catch (e) {
+        console.log(e);
+      }
     };
 
-    const initialize = () => {
-      // a function that execute the request from NowPlaying and Popular
+    const initialize = () => { // a function that execute the request from NowPlaying and Popular
       requestNowPlaying();
       requestPopular();
     };
@@ -61,7 +55,7 @@ function Home() {
     if (searchTerm !== "" && searchTerm !== lastSearch) {
       // if search it's empty and different to the last search it's going to be execute
       setLastSearch(searchTerm); // it change the term of my the search
-      search(); // This execute the request to the api in the search url.
+      requestSearch(); // This execute the request to the api in the search url.
     }
   }, [isInitialized, searchTerm, lastSearch, API_SEARCH]);
 

@@ -1,23 +1,24 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import ResultsBar from "../../components/ResultsBar";
 import { setSearchTerm } from "../../store/actions";
+import { getSearch } from "../../API";
 
-const { REACT_APP_API_KEY: API_KEY } = process.env;
 
 const Header = () => {
   const searchTerm = useSelector((state) => state.searchTermReducer);
   const dispatch = useDispatch();
 
-  // const [searchTerm, setSearchTerm] = useState([]);
   const [localSearchTerm, setlocalSearchTerm] = useState([]);
   const [results, setResult] = useState([]);
-  const API_SEARCH = "https://api.themoviedb.org/3/search/movie";
 
   const handleOnChange = (e) => {
-    setlocalSearchTerm(e.target.value);
+    try {
+      setlocalSearchTerm(e.target.value);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const handleSearchMovies = (e) => {
@@ -34,24 +35,10 @@ const Header = () => {
   };
 
   useEffect(() => {
-    // const requestSearch = async () => {
-    //   setResult(await getSearch(searchTerm));
-    // };
-    const getResult = (API_SEARCH) => {
-      axios
-        .get(`${API_SEARCH}`, {
-          params: {
-            api_key: API_KEY,
-            query: searchTerm,
-          },
-        })
-        .then((res) => {
-          setResult(res.data.results);
-        })
-        .catch((e) => console.log(e));
+    const requestSearch = async () => {
+      setResult(await getSearch(searchTerm));
     };
-    getResult(API_SEARCH);
-    // requestSearch();
+    requestSearch();
   }, [searchTerm]);
 
   return (
@@ -70,14 +57,18 @@ const Header = () => {
               value={localSearchTerm}
               onChange={handleOnChange}
             />
-            <div id="hidden-block">
-              {results.slice(0, 3).map((result) => (
-                <ResultsBar key={result.id} {...result} />
-              ))}
-              <Link to={`/movies-app`} className="btn btn-secondary">
-                View More
-              </Link>
-            </div>
+            {results ? (
+              <div id="hidden-block">
+                {results.slice(0, 3).map((result) => (
+                  <ResultsBar key={result.id} {...result} />
+                ))}
+                <Link to={`/movies-app`} className="btn btn-secondary">
+                  View More
+                </Link>
+              </div>
+            ) : (
+              <div id="hidden-block">We can not find anything</div>
+            )}
           </div>
           <button className="btn btn-outline-success">Search</button>
         </form>

@@ -12,7 +12,7 @@ const Movie = ({ title, poster_path, overview, id }) => (
             ? IMG_API + poster_path
             : "https://cdn.pixabay.com/photo/2016/12/14/23/08/page-not-found-1907792_960_720.jpg"
         }
-        class="card-img-top"
+        className="card-img-top"
         alt={title}
       />
     </Link>
