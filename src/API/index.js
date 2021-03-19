@@ -1,13 +1,14 @@
 import axios from "axios";
 
+const {
+    REACT_APP_API_KEY: API_KEY
+} = process.env;
+
 const URL = 'https://api.themoviedb.org/3';
 const NOW_PLAYING = `${URL}/movie/now_playing`;
 const POPULAR = `${URL}/movie/popular`
 const MOVIEURL = `${URL}/movie`;
-
-const {
-    REACT_APP_API_KEY: API_KEY
-} = process.env;
+const API_SEARCH = `${URL}/search/movie`;
 
 export const getNowPlaying = async () => {
     try {
@@ -19,7 +20,7 @@ export const getNowPlaying = async () => {
             }
 
         });
-
+        console.log("NowPlaying");
         return data.results;
 
     } catch (e) {
@@ -37,6 +38,7 @@ export const getPopular = async () => {
             }
 
         });
+        console.log("Popular");
         return data.results;
 
     } catch (e) {
@@ -44,7 +46,24 @@ export const getPopular = async () => {
     }
 }
 
-// Details Page
+export const getSearch = async (searchTerm) => {
+    try {
+        const res = axios.get(API_SEARCH, {
+            params: {
+                api_key: API_KEY,
+                query: searchTerm
+            }
+        });
+        console.log("getSearch");
+        console.log(res);
+        return res;
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+// Details 
+
 export const getMoviesDetail = async (id) => {
     try {
         const {
@@ -53,15 +72,15 @@ export const getMoviesDetail = async (id) => {
             params: {
                 api_key: API_KEY,
             }
-
         });
+        console.log("Details");
         return data;
     } catch (e) {
         console.log(e);
     }
 }
 
-export const getSimiliarMovies = async (id) =>{
+export const getSimiliarMovies = async (id) => {
     try {
         const {
             data
@@ -71,10 +90,10 @@ export const getSimiliarMovies = async (id) =>{
             }
 
         });
+        console.log("Similar");
         return data.results;
 
     } catch (e) {
         console.log(e);
     }
 }
-

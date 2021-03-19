@@ -33,7 +33,6 @@ img {
 
 .content nav {
   background: #111;
-  flex: 1 0 auto;
 }
 
 .result {
@@ -213,4 +212,6 @@ img {
 
 #hidden-block a {
   width: 100%;
+  color: #fff;
+  text-decoration: none;
 }

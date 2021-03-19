@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const API_IMG = "https://image.tmdb.org/t/p/original/";
 
-const Slider = ({ title, backdrop_path,overview, id }) => (
+const Slider = ({ title, backdrop_path, overview, id }) => (
   <Carousel.Item>
     <Link to={`/movies-app/movie/${id}`}>
       <img
