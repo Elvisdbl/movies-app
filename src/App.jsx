@@ -1,4 +1,4 @@
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route } from "react-router-dom";
 import Header from "./views/partials/Header";
 import Home from "./views/Home";
 import Detail from "./views/Details";

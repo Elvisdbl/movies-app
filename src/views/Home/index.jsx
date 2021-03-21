@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import Movie from "../../components/Movie";
 import { getSearch } from "../../API";
-// import Slider from "../../components/Slider";
+import Slider from "../../components/Slider";
 
 import { Carousel } from "react-bootstrap";
 import { getNowPlaying, getPopular } from "../../API";
 import { useSelector } from "react-redux";
 
-const { REACT_APP_API_KEY: API_KEY } = process.env;
-function Home() {
-  const API_IMG = `https://image.tmdb.org/t/p/original/`;
-  const API_SEARCH = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=`;
-
+const Home = () => {
   const searchTerm = useSelector((state) => state.searchTermReducer);
   const [nowPlaying, setNowPlaying] = useState([]);
   const [popular, setPopular] = useState([]);
@@ -38,7 +33,7 @@ function Home() {
         setMovies(await getSearch(searchTerm));
         setLoading(false);
       } catch (e) {
-        console.log(e);
+        console.log("error");
       }
     };
 
@@ -47,45 +42,24 @@ function Home() {
       requestPopular();
     };
 
-    if (!isInitialized) {
-      // If the request isn't Initialized it will be executed
+    if (!isInitialized) {// If the request isn't Initialized it will be executed
       setIsInitialized(true); // get true Initialized
       initialize(); // Execute the request if it's not initialize
     }
-    if (searchTerm !== "" && searchTerm !== lastSearch) {
-      // if search it's empty and different to the last search it's going to be execute
+    if (searchTerm !== "" && searchTerm !== lastSearch) { // if search it's empty and different to the last search it's going to be execute
       setLastSearch(searchTerm); // it change the term of my the search
       requestSearch(); // This execute the request to the api in the search url.
     }
-  }, [isInitialized, searchTerm, lastSearch, API_SEARCH]);
-
-  const Slider = nowPlaying.slice(0, 3).map((item, id) => {
-    return (
-      <Carousel.Item key={id}>
-        <Link to={`/movies-app/movie/${item.id}`}>
-          <img
-            src={
-              item.backdrop_path
-                ? API_IMG + item.backdrop_path
-                : "https://cdn.pixabay.com/photo/2017/03/09/12/31/error-2129569_960_720.jpg"
-            }
-            alt={item.title}
-          />
-        </Link>
-        <Carousel.Caption style={{ background: "#302f2fa1" }}>
-          <h3>{item.title}</h3>
-        </Carousel.Caption>
-      </Carousel.Item>
-    );
-  });
+  }, [isInitialized, lastSearch, searchTerm]);
 
   return (
     <div>
       <Carousel keyboard={true} nextLabel="" prevLabel="" fade={true}>
-        {/* {nowPlaying.slice(0, 3).map((movie) => (
-          <Slider key={movie.id} {...movie} />
-        ))} */}
-        {Slider}
+        {nowPlaying.slice(0, 3).map((movie,index) => (
+          <Carousel.Item key={index}>
+          <Slider key={movies.id} {...movie} />
+          </Carousel.Item>
+        ))}
       </Carousel>
 
       {searchTerm.length ? ( //if searchTerm have something going to show the result instead of it'll show popular.

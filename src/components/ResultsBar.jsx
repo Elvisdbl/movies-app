@@ -1,10 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import '../styles/ResultsBar.css'
 const API_IMG = "https://image.tmdb.org/t/p/original/";
 
-const ResultsBar = ({ title, poster_path, release_date, id }) => (
-  <Link to={`/movies-app/movie/${id}`} className="resultSearch" key={id}>
+const ResultsBar = ({ title, poster_path, release_date, id }) => {
+  const displayNone = () => { document.getElementById("hidden-block").style.display = "none";}
+  return(
+  <Link
+    to={`/movies-app/movie/${id}`}
+    className="resultSearch"
+    key={id}
+    onClick={displayNone}
+  >
     <img
       src={
         poster_path
@@ -18,6 +25,6 @@ const ResultsBar = ({ title, poster_path, release_date, id }) => (
       <p>{release_date.slice(0, 4)}</p>
     </div>
   </Link>
-);
+)};
 
 export default ResultsBar;

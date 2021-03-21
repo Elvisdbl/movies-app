@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import ResultsBar from "../../components/ResultsBar";
-import { setSearchTerm } from "../../store/actions";
+import { setSearchTerm} from "../../store/actions";
 import { getSearch } from "../../API";
 
-
 const Header = () => {
+  let element = document.getElementById("hidden-block");
+  let { pathname } = useLocation();
   const searchTerm = useSelector((state) => state.searchTermReducer);
   const dispatch = useDispatch();
 
@@ -23,16 +24,25 @@ const Header = () => {
 
   const handleSearchMovies = (e) => {
     e.preventDefault();
-    if (window.location.pathname !== "/movies-app/") {
-      let element = document.getElementById("hidden-block");
+    dispatch(setSearchTerm(localSearchTerm || ""));
+
+    if (pathname !== "/movies-app") {
       if (element.style.display === "none") {
         element.style.display = "block";
       } else {
         element.style.display = "none";
       }
     }
-    dispatch(setSearchTerm(localSearchTerm || ""));
   };
+  
+  const displayNoneWithSearchEmpty = () => {
+    document.getElementById("hidden-block").style.display = "none";
+    dispatch(setSearchTerm(""));
+  }
+
+  const displayNone = () => {
+    document.getElementById("hidden-block").style.display = "none";
+  }
 
   useEffect(() => {
     const requestSearch = async () => {
@@ -44,11 +54,15 @@ const Header = () => {
   return (
     <nav id="navbar" className="navbar">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/movies-app/">
+        <Link
+          to={`/movies-app`}
+          className="navbar-brand"
+          onClick={displayNoneWithSearchEmpty}
+        >
           <h2 className="text-light">Movies</h2>
-        </a>
+        </Link>
         <form onSubmit={handleSearchMovies} className="d-flex">
-          <div className="relative">
+          <div className="rel">
             <input
               className="form-control me-2"
               type="search"
@@ -62,7 +76,11 @@ const Header = () => {
                 {results.slice(0, 3).map((result) => (
                   <ResultsBar key={result.id} {...result} />
                 ))}
-                <Link to={`/movies-app`} className="btn btn-secondary">
+                <Link
+                  to={`/movies-app`}
+                  className="btn btn-secondary"
+                  onClick={displayNone}
+                >
                   View More
                 </Link>
               </div>

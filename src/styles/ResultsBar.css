@@ -1,0 +1,30 @@
+#hidden-block {
+  border-radius: 0.3rem;
+  background-color: rgba(37, 37, 37, 0.926);
+  display: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.resultSearch {
+  padding: 0.5rem;
+  display: flex;
+}
+
+.resultSearch img {
+  width: 5rem;
+}
+
+.description {
+  padding-left: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+#hidden-block a {
+  width: 100%;
+  color: #fff;
+  text-decoration: none;
+}

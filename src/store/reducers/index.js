@@ -5,7 +5,7 @@ import {
 import searchTermReducer from './searchTermReducer';
 
 const allReducers = combineReducers({
-    searchTermReducer
+    searchTermReducer,
 });
 
 export default allReducers;

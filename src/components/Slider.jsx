@@ -5,8 +5,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const API_IMG = "https://image.tmdb.org/t/p/original/";
 
-const Slider = ({ title, backdrop_path, overview, id }) => (
-  <Carousel.Item>
+const Slider = ({ title, id, backdrop_path }) => (
+  <>
     <Link to={`/movies-app/movie/${id}`}>
       <img
         className="d-block w-100"
@@ -20,9 +20,8 @@ const Slider = ({ title, backdrop_path, overview, id }) => (
     </Link>
     <Carousel.Caption style={{ background: "#302f2fa1" }}>
       <h3>{title}</h3>
-      <p>{overview}</p>
     </Carousel.Caption>
-  </Carousel.Item>
+  </>
 );
 
 export default Slider;

@@ -20,7 +20,6 @@ export const getNowPlaying = async () => {
             }
 
         });
-        console.log("NowPlaying");
         return data.results;
 
     } catch (e) {
@@ -38,7 +37,6 @@ export const getPopular = async () => {
             }
 
         });
-        console.log("Popular");
         return data.results;
 
     } catch (e) {
@@ -69,7 +67,6 @@ export const getMoviesDetail = async (id) => {
                 api_key: API_KEY,
             }
         });
-        console.log("Details");
         return data;
     } catch (e) {
         console.log(e);
@@ -86,7 +83,6 @@ export const getSimiliarMovies = async (id) => {
             }
 
         });
-        console.log("Similar");
         return data.results;
 
     } catch (e) {

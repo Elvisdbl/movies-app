@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { getMoviesDetail, getSimiliarMovies } from "../../API";
 import SimilarMovies from "../../components/SimilarMovies";
 import ReactStars from "react-rating-stars-component";
-import { getMoviesDetail, getSimiliarMovies } from "../../API";
 
-export function Detail({ match }) {
+const Detail = ({ match }) => {
   const API_IMG = `https://image.tmdb.org/t/p/original/`;
   let genres = [];
   let productions = [];
