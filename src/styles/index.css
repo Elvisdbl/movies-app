@@ -90,3 +90,11 @@ img {
   margin: 2px;
   padding: 2px 0;
 }
+
+.display-block {
+  display: block;
+}
+
+.display-none {
+  display: none;
+}

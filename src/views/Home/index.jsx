@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Movie from "../../components/Movie";
-import { getSearch } from "../../API";
-import Slider from "../../components/Slider";
-
-import { Carousel } from "react-bootstrap";
-import { getNowPlaying, getPopular } from "../../API";
 import { useSelector } from "react-redux";
+import { Carousel } from "react-bootstrap";
+import Movie from "../../components/Movie";
+import Slider from "../../components/Slider";
+import { getSearch, getNowPlaying, getPopular } from "../../API";
 
 const Home = () => {
   const searchTerm = useSelector((state) => state.searchTermReducer);
@@ -37,16 +35,19 @@ const Home = () => {
       }
     };
 
-    const initialize = () => { // a function that execute the request from NowPlaying and Popular
+    const initialize = () => {
+      // a function that execute the request from NowPlaying and Popular
       requestNowPlaying();
       requestPopular();
     };
 
-    if (!isInitialized) {// If the request isn't Initialized it will be executed
+    if (!isInitialized) {
+      // If the request isn't Initialized it will be executed
       setIsInitialized(true); // get true Initialized
       initialize(); // Execute the request if it's not initialize
     }
-    if (searchTerm !== "" && searchTerm !== lastSearch) { // if search it's empty and different to the last search it's going to be execute
+    if (searchTerm !== "" && searchTerm !== lastSearch) {
+      // if search it's empty and different to the last search it's going to be execute
       setLastSearch(searchTerm); // it change the term of my the search
       requestSearch(); // This execute the request to the api in the search url.
     }
@@ -55,9 +56,9 @@ const Home = () => {
   return (
     <div>
       <Carousel keyboard={true} nextLabel="" prevLabel="" fade={true}>
-        {nowPlaying.slice(0, 3).map((movie,index) => (
+        {nowPlaying.slice(0, 3).map((movie, index) => (
           <Carousel.Item key={index}>
-          <Slider key={movies.id} {...movie} />
+            <Slider key={movies.id} {...movie} />
           </Carousel.Item>
         ))}
       </Carousel>
@@ -94,6 +95,6 @@ const Home = () => {
       )}
     </div>
   );
-}
+};
 
 export default Home;

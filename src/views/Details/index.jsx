@@ -100,6 +100,6 @@ const Detail = ({ match }) => {
       </div>
     </div>
   );
-}
+};
 
 export default Detail;
