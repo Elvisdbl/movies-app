@@ -26,7 +26,7 @@ const Header = () => {
   const handleSearchMovies = (e) => {
     e.preventDefault();
     dispatch(setSearchTerm(localSearchTerm || ""));
-    if (pathname !== "/movies-app") {
+    if (pathname !== "/movies-app/") {
       dispatch(toggleBar());
     }
   };

@@ -10,7 +10,7 @@ function App() {
     <>
       <Header />
       <Switch>
-        <Route path="/movies-app" component={Home} exact />
+        <Route path="/movies-app/" component={Home} exact />
         <Route path="/movies-app/movie/:id" component={Detail} />
       </Switch>
       <Footer />
