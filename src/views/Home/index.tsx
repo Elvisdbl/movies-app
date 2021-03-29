@@ -5,8 +5,16 @@ import Movie from "../../components/Movie";
 import Slider from "../../components/Slider";
 import { getSearch, getNowPlaying, getPopular } from "../../API";
 
+interface IState {
+  searchTermReducer: {
+    searchTerm: string;
+  };
+}
+
 const Home = () => {
-  const searchTerm = useSelector((state) => state.searchTermReducer);
+  const { searchTerm } = useSelector(
+    ({ searchTermReducer }: IState) => searchTermReducer
+  );
   const [nowPlaying, setNowPlaying] = useState([]);
   const [popular, setPopular] = useState([]);
   const [movies, setMovies] = useState([]);
@@ -58,7 +66,7 @@ const Home = () => {
       <Carousel keyboard={true} nextLabel="" prevLabel="" fade={true}>
         {nowPlaying.slice(0, 3).map((movie, index) => (
           <Carousel.Item key={index}>
-            <Slider key={movies.id} {...movie} />
+            <Slider {...movie} />
           </Carousel.Item>
         ))}
       </Carousel>
@@ -89,7 +97,7 @@ const Home = () => {
       ) : (
         <div className="container-xxl movie-container">
           {(searchTerm.length ? movies : popular).map((movie) => (
-            <Movie key={movie.id} {...movie} />
+            <Movie {...movie} />
           ))}
         </div>
       )}

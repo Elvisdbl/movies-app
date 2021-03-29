@@ -1,4 +1,4 @@
-export const setSearchTerm = (Term) => {
+export const setSearchTerm = (Term: string) => {
     return {
         type: 'SETSEARCHTERM',
         payload: Term

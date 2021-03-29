@@ -5,7 +5,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const API_IMG = "https://image.tmdb.org/t/p/original/";
 
-const Slider = ({ title, id, backdrop_path }) => (
+type Props = {
+  title: string,
+  backdrop_path: string,
+  id : number,
+};
+
+const Slider = ({ title, id, backdrop_path }: Props) => (
   <>
     <Link to={`/movies-app/movie/${id}`}>
       <img

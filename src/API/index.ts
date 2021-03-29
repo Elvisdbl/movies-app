@@ -4,11 +4,11 @@ const {
     REACT_APP_API_KEY: API_KEY
 } = process.env;
 
-const URL = 'https://api.themoviedb.org/3';
-const NOW_PLAYING = `${URL}/movie/now_playing`;
-const POPULAR = `${URL}/movie/popular`
-const MOVIEURL = `${URL}/movie`;
-const API_SEARCH = `${URL}/search/movie`;
+const URL:string = 'https://api.themoviedb.org/3';
+const NOW_PLAYING:string = `${URL}/movie/now_playing`;
+const POPULAR:string = `${URL}/movie/popular`
+const MOVIEURL:string = `${URL}/movie`;
+const API_SEARCH:string = `${URL}/search/movie`;
 
 export const getNowPlaying = async () => {
     try {
@@ -44,7 +44,7 @@ export const getPopular = async () => {
     }
 }
 
-export const getSearch = async (searchTerm) => {
+export const getSearch = async (searchTerm:string) => {
     const {
         data
     } = await axios.get(API_SEARCH, {
@@ -58,7 +58,7 @@ export const getSearch = async (searchTerm) => {
 
 // Details 
 
-export const getMoviesDetail = async (id) => {
+export const getMoviesDetail = async (id:number) => {
     try {
         const {
             data
@@ -73,7 +73,7 @@ export const getMoviesDetail = async (id) => {
     }
 }
 
-export const getSimiliarMovies = async (id) => {
+export const getSimiliarMovies = async (id:number) => {
     try {
         const {
             data

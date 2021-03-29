@@ -6,7 +6,15 @@ import { hideBar } from "../store/actions";
 
 const API_IMG = "https://image.tmdb.org/t/p/original/";
 
-const ResultsBar = ({ title, poster_path, release_date, id }) => {
+type Props = {
+  title: string,
+  poster_path: string,
+  overview: string,
+  id : number,
+  release_date: string
+};
+
+const ResultsBar = ({ title, poster_path, release_date, id }:Props) => {
   const dispatch = useDispatch();
 
   const diplayHide = () => {
@@ -17,7 +25,6 @@ const ResultsBar = ({ title, poster_path, release_date, id }) => {
   <Link
     to={`/movies-app/movie/${id}`}
     className="resultSearch"
-    key={id}
     onClick={diplayHide}
   >
     <img

@@ -3,11 +3,43 @@ import { getMoviesDetail, getSimiliarMovies } from "../../API";
 import SimilarMovies from "../../components/SimilarMovies";
 import ReactStars from "react-rating-stars-component";
 
-const Detail = ({ match }) => {
+type Match = {
+  match: {
+    params: {
+      id: number;
+    };
+  };
+};
+
+interface IResults {
+  id?: number;
+  title: string;
+  poster_path?: string;
+  tagline?: string;
+  backdrop_path?: string;
+  vote_average?: number;
+  original_language?: string;
+  release_date?: string;
+  overview?: string;
+  genres?: Array<IGenres>;
+  production_companies?: Array<IProductions>;
+}
+
+interface IGenres {
+  name: string;
+}
+
+interface IProductions {
+  name: string;
+}
+
+// interfaces
+
+const Detail = ({ match }: Match) => {
   const API_IMG = `https://image.tmdb.org/t/p/original/`;
-  let genres = [];
-  let productions = [];
-  const [details, setDetails] = useState([]);
+  // let genres;
+  // let productions;
+  const [details, setDetails] = useState({} as IResults);
   const [similarMovie, setSimilarMovie] = useState([]);
 
   useEffect(() => {
@@ -18,22 +50,24 @@ const Detail = ({ match }) => {
     requestDetails();
   }, [match.params.id]);
 
-  genres = details.genres;
+  let genres = details.genres;
   let genresList;
   if (genres) {
-    genresList = genres.map((g, i) => (
+    genresList = genres.map((genre, i: number) => (
       <span className="list-inline-item" key={i}>
         <button type="button" className="btn btn-outline-info">
-          {g.name}
+          {genre.name}
         </button>
       </span>
     ));
   }
 
-  productions = details.production_companies;
+  let productions = details.production_companies;
   let productionList;
   if (productions) {
-    productionList = productions.map((p, i) => <span key={i}>{p.name}, </span>);
+    productionList = productions.map((production, i) => (
+      <span key={i}>{production.name}, </span>
+    ));
   }
 
   return (
@@ -95,7 +129,7 @@ const Detail = ({ match }) => {
       </div>
       <div style={{ margin: "0 auto" }} className="row mt-3">
         {similarMovie.slice(0, 4).map((similar) => (
-          <SimilarMovies key={similar.id} {...similar} />
+          <SimilarMovies {...similar} />
         ))}
       </div>
     </div>

@@ -3,7 +3,14 @@ import { Link } from "react-router-dom";
 
 const IMG_API = "https://image.tmdb.org/t/p/original/";
 
-const Movie = ({ title, poster_path, overview, id }) => (
+type Props = {
+  title: string,
+  poster_path: string,
+  overview: string,
+  id : number,
+};
+
+const Movie = ({ title, poster_path, overview, id }:Props) => (
   <div className="movie" style={{ width: "18rem" }}>
     <Link to={`/movies-app/movie/${id}`}>
       <img

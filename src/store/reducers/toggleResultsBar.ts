@@ -1,8 +1,14 @@
+interface Action {
+    payload?: string,
+    type: string
+}
+ 
+ 
  const initialState = {
      show: false
  }
 
- const toggleResultsBar = (state = initialState, action) => {
+ const toggleResultsBar = (state = initialState, action:Action) => {
      const {
          type
      } = action;

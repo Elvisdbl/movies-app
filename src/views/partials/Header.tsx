@@ -1,31 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import ResultsBar from "../../components/ResultsBar";
 import { setSearchTerm, hideBar, toggleBar } from "../../store/actions";
 import { getSearch } from "../../API";
 
+interface IState {
+  searchTermReducer: {
+    searchTerm: string;
+  };
+  toggleResultsBar: {
+    show: boolean;
+  };
+}
+
 const Header = () => {
-  // let element = document.getElementById("hidden-block");
   let { pathname } = useLocation();
-  const searchTerm = useSelector((state) => state.searchTermReducer);
-  const { show } = useSelector((state) => state.toggleResultsBar);
+  const { searchTerm } = useSelector(
+    ({ searchTermReducer }: IState) => searchTermReducer
+  );
+  const { show } = useSelector(
+    ({ toggleResultsBar }: IState) => toggleResultsBar
+  );
+
   const dispatch = useDispatch();
-  const [localSearchTerm, setlocalSearchTerm] = useState([]);
+
+  const [localSearchTerm, setlocalSearchTerm] = useState("");
   const [results, setResult] = useState([]);
+
   const showHideClassName = show ? "display-block" : "display-none";
 
-  const handleOnChange = (e) => {
-    try {
-      setlocalSearchTerm(e.target.value);
-    } catch (e) {
-      console.log(e);
-    }
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setlocalSearchTerm(e.target.value);
   };
 
-  const handleSearchMovies = (e) => {
+  const handleSearchMovies = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(setSearchTerm(localSearchTerm || ""));
+    dispatch(setSearchTerm(localSearchTerm));
     if (pathname !== "/movies-app/") {
       dispatch(toggleBar());
     }
@@ -70,7 +81,7 @@ const Header = () => {
             {results ? (
               <div id="hidden-block" className={showHideClassName}>
                 {results.slice(0, 3).map((result) => (
-                  <ResultsBar key={result.id} {...result} />
+                  <ResultsBar {...result} />
                 ))}
                 <Link
                   to={`/movies-app`}
